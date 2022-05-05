@@ -1,46 +1,47 @@
-﻿using agendadigital.entidades;
-using agendadigital.EntityFramework;
+﻿using agendadigital.EntityFramework;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using agendadigital.entidades;
 using Microsoft.EntityFrameworkCore;
 
 namespace agendadigital.Controllers
 {
-    public class TelefonoController : Controller
-    {
+    public class ContactoController : Controller
+    { 
+
         private ApplicationDbContext dbContext;
-        public TelefonoController(ApplicationDbContext applicationDbContext)
+        public ContactoController (ApplicationDbContext applicationDbContext)
         {
-            dbContext =  applicationDbContext;
+            dbContext = applicationDbContext;
         }
-        // GET: TelefonoController
+    
+        // GET: ContactoController
         public async Task<ActionResult> Index()
         {
-            
-            var lista = await dbContext.Telefonos.ToListAsync();
+            var lista = await dbContext.Contactos.ToListAsync();
             return View(lista);
         }
 
-        // GET: TelefonoController/Details/5
+        // GET: ContactoController/Details/5
         public ActionResult Details(int id)
         {
             return View();
         }
 
-        // GET: TelefonoController/Create
+        // GET: ContactoController/Create
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: TelefonoController/Create
+        // POST: ContactoController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create(Telefono telefono)
+        public async Task<ActionResult> Create(Contacto contacto)
         {
             try
             {
-                dbContext.Add(telefono);
+                dbContext.Add(contacto);
                 await dbContext.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
@@ -50,13 +51,13 @@ namespace agendadigital.Controllers
             }
         }
 
-        // GET: TelefonoController/Edit/5
+        // GET: ContactoController/Edit/5
         public ActionResult Edit(int id)
         {
             return View();
         }
 
-        // POST: TelefonoController/Edit/5
+        // POST: ContactoController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit(int id, IFormCollection collection)
@@ -71,13 +72,13 @@ namespace agendadigital.Controllers
             }
         }
 
-        // GET: TelefonoController/Delete/5
+        // GET: ContactoController/Delete/5
         public ActionResult Delete(int id)
         {
             return View();
         }
 
-        // POST: TelefonoController/Delete/5
+        // POST: ContactoController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Delete(int id, IFormCollection collection)
