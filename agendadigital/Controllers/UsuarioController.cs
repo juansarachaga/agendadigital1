@@ -23,9 +23,10 @@ namespace agendadigital.Controllers
         }
 
         // GET: UsuarioController/Details/5
-        public ActionResult Details(int id)
+        public async Task<ActionResult> Details(int id)
         {
-            return View();
+            Usuario usuario = await dbContext.Usuarios.FindAsync(id);
+            return View(usuario);
         }
 
         // GET: UsuarioController/Create
@@ -54,16 +55,19 @@ namespace agendadigital.Controllers
         // GET: UsuarioController/Edit/5
         public ActionResult Edit(int id)
         {
-            return View();
+            var usuario = dbContext.Usuarios.Find(id);
+            return View(usuario);
         }
 
         // POST: UsuarioController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public async Task<ActionResult> Edit(int id, Usuario usuario)
         {
             try
             {
+                dbContext.Update(usuario);
+                await dbContext.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
             catch

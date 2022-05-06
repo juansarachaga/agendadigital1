@@ -6,5 +6,6 @@
         public string Numero { get; set; }
         public int IdContacto { get; set; }
         
+
     }
 }

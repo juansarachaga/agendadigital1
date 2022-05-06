@@ -22,9 +22,10 @@ namespace agendadigital.Controllers
         }
 
         // GET: TelefonoController/Details/5
-        public ActionResult Details(int id)
+        public async Task<ActionResult> Details(int id)
         {
-            return View();
+            Telefono telefono = await dbContext.Telefonos.FindAsync(id);
+            return View(telefono);
         }
 
         // GET: TelefonoController/Create
@@ -53,21 +54,24 @@ namespace agendadigital.Controllers
         // GET: TelefonoController/Edit/5
         public ActionResult Edit(int id)
         {
-            return View();
+            var telefono = dbContext.Telefonos.Find(id);
+            return View(telefono);
         }
 
         // POST: TelefonoController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public async Task<ActionResult> Edit(int id, Telefono telefono)
         {
             try
             {
+                dbContext.Update(telefono);
+                await dbContext.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
             catch
             {
-                return View();
+                return View(telefono);
             }
         }
 

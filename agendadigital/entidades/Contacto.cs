@@ -8,6 +8,7 @@
         public string Email { get; set; }
         public int IdUsuario { get; set; }
         
+        
 
     }
 }
