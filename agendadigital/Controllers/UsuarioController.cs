@@ -66,6 +66,10 @@ namespace agendadigital.Controllers
         {
             try
             {
+                if (id != usuario.Id)
+                {
+                    new Exception("El Id no coincide");
+                }
                 dbContext.Update(usuario);
                 await dbContext.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -79,21 +83,24 @@ namespace agendadigital.Controllers
         // GET: UsuarioController/Delete/5
         public ActionResult Delete(int id)
         {
-            return View();
+            var usuario = dbContext.Usuarios.Find(id);
+            return View(usuario);
         }
 
         // POST: UsuarioController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public async Task<ActionResult> Delete(int id, Usuario usuario)
         {
             try
             {
+                dbContext.Remove(usuario);
+                await dbContext.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
             catch
             {
-                return View();
+                return View(usuario);
             }
         }
     }
