@@ -1,45 +1,43 @@
-﻿using agendadigital.EntityFramework;
+﻿using agendadigital.entidades;
+using agendadigital.EntityFramework;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace agendadigital.Controllers
 {
     public class UsuarioController : Controller
     {
-        private ApplicationDbContext applicationbDbContext;
 
+        private ApplicationDbContext dbContext;
         public UsuarioController(ApplicationDbContext applicationDbContext)
         {
-            this.applicationbDbContext = applicationDbContext;
-
+            dbContext = applicationDbContext;
         }
+
         // GET: UsuarioController
         public async Task<ActionResult> Index()
         {
-
-            var usuario =  await applicationDbContext.Usuario.TolistAsync();
-            return View(usuario);
+            var lista = await dbContext.Usuarios.ToListAsync();
+            return View(lista);
         }
 
         // GET: UsuarioController/Details/5
-        public ActionResult Details(int id)
+        public async Task<ActionResult> Details(int id)
         {
-            return View();
+            Usuario usuario = await dbContext.Usuarios.FindAsync(id);
+            return View(usuario);
         }
 
         // GET: UsuarioController/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: UsuarioController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public async Task<ActionResult> Create(Usuario usuario)
         {
             try
             {
+                dbContext.Add(usuario);
+                await dbContext.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
             catch
@@ -47,46 +45,56 @@ namespace agendadigital.Controllers
                 return View();
             }
         }
-
         // GET: UsuarioController/Edit/5
         public ActionResult Edit(int id)
         {
-            return View();
+
+            var usuario = dbContext.Usuarios.Find(id);
+            return View(usuario);
         }
 
         // POST: UsuarioController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public async Task<ActionResult> Edit(int id, Usuario usuario)
         {
             try
             {
+                if (id != usuario.Id)
+                {
+                    new Exception("El Id no coincide");
+                }
+                dbContext.Update(usuario);
+                await dbContext.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
             catch
             {
-                return View();
+                return View(usuario);
             }
         }
 
         // GET: UsuarioController/Delete/5
-        public ActionResult Delete(int id)
+        public async Task<ActionResult> Delete(int id)
         {
-            return View();
+            var usuario = await dbContext.Usuarios.FindAsync(id);
+            return View(usuario);
         }
 
         // POST: UsuarioController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public async Task<ActionResult> Delete(int id, Usuario usuario)
         {
             try
             {
+                dbContext.Remove(usuario);
+                await dbContext.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
             catch
             {
-                return View();
+                return View(usuario);
             }
         }
     }

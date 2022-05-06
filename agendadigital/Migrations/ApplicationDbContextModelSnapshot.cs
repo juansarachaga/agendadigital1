@@ -44,12 +44,7 @@ namespace agendadigital.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("usuarioId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("usuarioId");
 
                     b.ToTable("Contactos");
                 });
@@ -69,12 +64,7 @@ namespace agendadigital.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("contactoId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("contactoId");
 
                     b.ToTable("Telefonos");
                 });
@@ -94,28 +84,6 @@ namespace agendadigital.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Usuarios");
-                });
-
-            modelBuilder.Entity("agendadigital.entidades.Contacto", b =>
-                {
-                    b.HasOne("agendadigital.entidades.Usuario", "usuario")
-                        .WithMany()
-                        .HasForeignKey("usuarioId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("usuario");
-                });
-
-            modelBuilder.Entity("agendadigital.entidades.Telefono", b =>
-                {
-                    b.HasOne("agendadigital.entidades.Contacto", "contacto")
-                        .WithMany()
-                        .HasForeignKey("contactoId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("contacto");
                 });
 #pragma warning restore 612, 618
         }

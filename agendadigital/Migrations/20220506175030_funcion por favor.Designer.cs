@@ -11,8 +11,8 @@ using agendadigital.EntityFramework;
 namespace agendadigital.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220505162954_fs")]
-    partial class fs
+    [Migration("20220506175030_funcion por favor")]
+    partial class funcionporfavor
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -69,6 +69,23 @@ namespace agendadigital.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Telefonos");
+                });
+
+            modelBuilder.Entity("agendadigital.entidades.Usuario", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Nombre")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Usuarios");
                 });
 #pragma warning restore 612, 618
         }
