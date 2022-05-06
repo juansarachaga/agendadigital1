@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using agendadigital.EntityFramework;
 
@@ -10,9 +11,10 @@ using agendadigital.EntityFramework;
 namespace agendadigital.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220506143614_crud hecho")]
+    partial class crudhecho
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -44,12 +46,7 @@ namespace agendadigital.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("usuarioId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("usuarioId");
 
                     b.ToTable("Contactos");
                 });
@@ -69,12 +66,7 @@ namespace agendadigital.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("contactoId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("contactoId");
 
                     b.ToTable("Telefonos");
                 });
@@ -94,28 +86,6 @@ namespace agendadigital.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Usuarios");
-                });
-
-            modelBuilder.Entity("agendadigital.entidades.Contacto", b =>
-                {
-                    b.HasOne("agendadigital.entidades.Usuario", "usuario")
-                        .WithMany()
-                        .HasForeignKey("usuarioId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("usuario");
-                });
-
-            modelBuilder.Entity("agendadigital.entidades.Telefono", b =>
-                {
-                    b.HasOne("agendadigital.entidades.Contacto", "contacto")
-                        .WithMany()
-                        .HasForeignKey("contactoId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("contacto");
                 });
 #pragma warning restore 612, 618
         }

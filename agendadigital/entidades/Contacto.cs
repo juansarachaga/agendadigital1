@@ -7,6 +7,7 @@
         public string Direccion { get; set; }
         public string Email { get; set; }
         public int IdUsuario { get; set; }
+        public Usuario usuario { get; set; }
         
         
 
