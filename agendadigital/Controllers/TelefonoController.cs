@@ -2,6 +2,7 @@
 using agendadigital.EntityFramework;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 
 namespace agendadigital.Controllers
@@ -16,7 +17,7 @@ namespace agendadigital.Controllers
         // GET: TelefonoController
         public async Task<ActionResult> Index()
         {
-            
+            ViewBag.ContactoId = new SelectList(await dbContext.Contactos.ToListAsync(), "Id", "Nombre");
             var lista = await dbContext.Telefonos.ToListAsync();
             return View(lista);
         }
@@ -29,8 +30,9 @@ namespace agendadigital.Controllers
         }
 
         // GET: TelefonoController/Create
-        public ActionResult Create()
+        public async Task<ActionResult> Create()
         {
+            ViewBag.ContactoId = new SelectList(await dbContext.Contactos.ToListAsync(), "Id","Nombre"); ;
             return View();
         }
 
@@ -47,7 +49,7 @@ namespace agendadigital.Controllers
             }
             catch
             {
-                return View();
+                return View(telefono);
             }
         }
 

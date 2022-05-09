@@ -20,8 +20,8 @@
             </div>
             <div class="form-group">
                 <label asp-for="IdContacto" class="control-label"></label>
-                <input asp-for="IdContacto" class="form-control" />
-                <span asp-validation-for="IdContacto" class="text-danger"></span>
+                <select asp-for="IdContacto" class="form-control" asp-items="ViewBag.IdContacto"/></select>
+                <span asp-validation-for="IdContacto" as"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
