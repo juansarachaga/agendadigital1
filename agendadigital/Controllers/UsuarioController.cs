@@ -2,6 +2,7 @@
 using agendadigital.EntityFramework;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 
 namespace agendadigital.Controllers
@@ -18,8 +19,8 @@ namespace agendadigital.Controllers
         // GET: UsuarioController
         public async Task<ActionResult> Index()
         {
-            var lista = await dbContext.Usuarios.ToListAsync();
-            return View(lista);
+            var usuarios = await dbContext.Usuarios.Include(x => x.contacto).ToListAsync();
+            return View(usuarios);
         }
 
         // GET: UsuarioController/Details/5
@@ -34,16 +35,9 @@ namespace agendadigital.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create(Usuario usuario)
         {
-            try
-            {
-                dbContext.Add(usuario);
-                await dbContext.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
+            ViewBag.ContactoId = new SelectList(await dbContext.Contactos.ToListAsync(), "Id", "Nombre");
+           
+            return View();
         }
         // GET: UsuarioController/Edit/5
         public ActionResult Edit(int id)

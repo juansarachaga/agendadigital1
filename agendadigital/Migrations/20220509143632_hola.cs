@@ -4,7 +4,7 @@
 
 namespace agendadigital.Migrations
 {
-    public partial class funcionporfavor : Migration
+    public partial class hola : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -31,11 +31,18 @@ namespace agendadigital.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Numero = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    IdContacto = table.Column<int>(type: "int", nullable: false)
+                    IdContacto = table.Column<int>(type: "int", nullable: false),
+                    contactoId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Telefonos", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Telefonos_Contactos_contactoId",
+                        column: x => x.contactoId,
+                        principalTable: "Contactos",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -44,24 +51,42 @@ namespace agendadigital.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Nombre = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Nombre = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ContactoId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Usuarios", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Usuarios_Contactos_ContactoId",
+                        column: x => x.ContactoId,
+                        principalTable: "Contactos",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Telefonos_contactoId",
+                table: "Telefonos",
+                column: "contactoId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Usuarios_ContactoId",
+                table: "Usuarios",
+                column: "ContactoId",
+                unique: true);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Contactos");
-
-            migrationBuilder.DropTable(
                 name: "Telefonos");
 
             migrationBuilder.DropTable(
                 name: "Usuarios");
+
+            migrationBuilder.DropTable(
+                name: "Contactos");
         }
     }
 }
