@@ -32,6 +32,7 @@ namespace agendadigital.Controllers
         // GET: ContactoController/Create
         public ActionResult Create()
         {
+            
             return View();
         }
 

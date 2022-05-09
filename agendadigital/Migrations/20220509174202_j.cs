@@ -4,7 +4,7 @@
 
 namespace agendadigital.Migrations
 {
-    public partial class fs : Migration
+    public partial class j : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

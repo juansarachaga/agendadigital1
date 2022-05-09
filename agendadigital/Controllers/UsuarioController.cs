@@ -1,25 +1,26 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using agendadigital.entidades;
 using agendadigital.EntityFramework;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using agendadigital.entidades;
 
 namespace agendadigital.Controllers
 {
     public class UsuarioController : Controller
     {
+
         private ApplicationDbContext dbContext;
         public UsuarioController(ApplicationDbContext applicationDbContext)
         {
             dbContext = applicationDbContext;
         }
 
-
         // GET: UsuarioController
         public async Task<ActionResult> Index()
         {
-            var lista = await dbContext.Usuarios.ToListAsync();
-            return View(lista);
+            var usuarios = await dbContext.Usuarios.Include(x => x.contacto).ToListAsync();
+            return View(usuarios);
         }
 
         // GET: UsuarioController/Details/5
@@ -30,31 +31,18 @@ namespace agendadigital.Controllers
         }
 
         // GET: UsuarioController/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: UsuarioController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create(Usuario usuario)
         {
-            try
-            {
-                dbContext.Add(usuario);
-                await dbContext.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
+            ViewBag.ContactoId = new SelectList(await dbContext.Contactos.ToListAsync(), "Id", "Nombre");
+           
+            return View();
         }
-
         // GET: UsuarioController/Edit/5
         public ActionResult Edit(int id)
         {
+
             var usuario = dbContext.Usuarios.Find(id);
             return View(usuario);
         }
@@ -76,14 +64,14 @@ namespace agendadigital.Controllers
             }
             catch
             {
-                return View();
+                return View(usuario);
             }
         }
 
         // GET: UsuarioController/Delete/5
-        public ActionResult Delete(int id)
+        public async Task<ActionResult> Delete(int id)
         {
-            var usuario = dbContext.Usuarios.Find(id);
+            var usuario = await dbContext.Usuarios.FindAsync(id);
             return View(usuario);
         }
 
