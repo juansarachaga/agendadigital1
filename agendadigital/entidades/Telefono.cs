@@ -4,8 +4,8 @@
     {
         public int Id { get; set; }
         public string Numero { get; set; }
-        public int IdContacto { get; set; }
-        public Contacto contacto { get; set; }
+        public int ContactoId { get; set; }
+        public Contacto Contacto { get; set; }
 
 
     }

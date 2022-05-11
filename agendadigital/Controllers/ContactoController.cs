@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using agendadigital.entidades;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace agendadigital.Controllers
 {
@@ -30,9 +31,10 @@ namespace agendadigital.Controllers
         }
 
         // GET: ContactoController/Create
-        public ActionResult Create()
+        public async Task<ActionResult> Create()
         {
-            
+
+            ViewBag.UsuarioId = new SelectList(await dbContext.Usuarios.ToListAsync(),"Id","Nombre");
             return View();
         }
 

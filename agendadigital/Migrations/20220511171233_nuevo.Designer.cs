@@ -11,8 +11,8 @@ using agendadigital.EntityFramework;
 namespace agendadigital.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220509160234_v")]
-    partial class v
+    [Migration("20220511171233_nuevo")]
+    partial class nuevo
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -39,14 +39,16 @@ namespace agendadigital.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("IdUsuario")
-                        .HasColumnType("int");
-
                     b.Property<string>("Nombre")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("UsuarioId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("UsuarioId");
 
                     b.ToTable("Contactos");
                 });
@@ -59,19 +61,16 @@ namespace agendadigital.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int>("IdContacto")
+                    b.Property<int>("ContactoId")
                         .HasColumnType("int");
 
                     b.Property<string>("Numero")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("contactoId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("contactoId");
+                    b.HasIndex("ContactoId");
 
                     b.ToTable("Telefonos");
                 });
@@ -84,47 +83,35 @@ namespace agendadigital.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int>("ContactoId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Nombre")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ContactoId")
-                        .IsUnique();
-
                     b.ToTable("Usuarios");
-                });
-
-            modelBuilder.Entity("agendadigital.entidades.Telefono", b =>
-                {
-                    b.HasOne("agendadigital.entidades.Contacto", "contacto")
-                        .WithMany()
-                        .HasForeignKey("contactoId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("contacto");
-                });
-
-            modelBuilder.Entity("agendadigital.entidades.Usuario", b =>
-                {
-                    b.HasOne("agendadigital.entidades.Contacto", "contacto")
-                        .WithOne("usuario")
-                        .HasForeignKey("agendadigital.entidades.Usuario", "ContactoId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("contacto");
                 });
 
             modelBuilder.Entity("agendadigital.entidades.Contacto", b =>
                 {
-                    b.Navigation("usuario")
+                    b.HasOne("agendadigital.entidades.Usuario", "Usuario")
+                        .WithMany()
+                        .HasForeignKey("UsuarioId")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Usuario");
+                });
+
+            modelBuilder.Entity("agendadigital.entidades.Telefono", b =>
+                {
+                    b.HasOne("agendadigital.entidades.Contacto", "Contacto")
+                        .WithMany()
+                        .HasForeignKey("ContactoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Contacto");
                 });
 #pragma warning restore 612, 618
         }

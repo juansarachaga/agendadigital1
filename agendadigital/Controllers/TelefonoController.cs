@@ -32,7 +32,7 @@ namespace agendadigital.Controllers
         // GET: TelefonoController/Create
         public async Task<ActionResult> Create()
         {
-            ViewBag.ContactoId = new SelectList(await dbContext.Contactos.ToListAsync(), "Id","Nombre"); ;
+            ViewBag.ContactoId = new SelectList(await dbContext.Contactos.ToListAsync(), "Id","Nombre"); 
             return View();
         }
 

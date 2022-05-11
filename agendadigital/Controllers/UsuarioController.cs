@@ -19,7 +19,7 @@ namespace agendadigital.Controllers
         // GET: UsuarioController
         public async Task<ActionResult> Index()
         {
-            var usuarios = await dbContext.Usuarios.Include(x => x.contacto).ToListAsync();
+            var usuarios = await dbContext.Usuarios.ToListAsync();
             return View(usuarios);
         }
 
@@ -30,14 +30,30 @@ namespace agendadigital.Controllers
             return View(usuario);
         }
 
+
         // GET: UsuarioController/Create
+        public async Task<ActionResult> Create()
+        {
+
+            
+            return View();
+        }
+
+        // POST: UsuarioController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create(Usuario usuario)
         {
-            ViewBag.ContactoId = new SelectList(await dbContext.Contactos.ToListAsync(), "Id", "Nombre");
-           
-            return View();
+            try {
+                dbContext.Add(usuario);
+                await dbContext.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+                        }
+
+            catch
+            {
+                return View(usuario);
+            }
         }
         // GET: UsuarioController/Edit/5
         public ActionResult Edit(int id)
