@@ -15,4 +15,17 @@ html {
 
 body {
   margin-bottom: 60px;
+  background: #f5e7e7;
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
+navbar {
+    color: aliceblue;
+    background: black;
+}
+footer {
+    color: aliceblue;
+    background: black;
+    text-decoration: none;
+}
+
+
